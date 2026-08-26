@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { navLinks } from "@/content/site";
@@ -11,8 +12,35 @@ type MobileMenuProps = {
   onClose: () => void;
 };
 
+const noopSubscribe = () => () => {};
+
+/** True only once hydrated on the client, without a server/client hydration mismatch. */
+function useIsClient() {
+  return useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false
+  );
+}
+
+/**
+ * Portaled to document.body rather than rendered inline under <header>.
+ * The header applies backdrop-blur (a backdrop-filter) once scrolled, and a
+ * filter/backdrop-filter on an ancestor creates a new containing block for
+ * position:fixed descendants — so a nested `fixed inset-0` here would
+ * resolve against the header's own small box instead of the viewport as
+ * soon as the user had scrolled. Portaling avoids being a descendant of
+ * the header at all, so this stays fixed to the true viewport regardless
+ * of scroll position or any future header styling.
+ *
+ * `pointerEvents` is included in initial/animate/exit (not just opacity):
+ * on close, AnimatePresence's exit removal can be delayed, and an
+ * exiting-but-still-mounted full-viewport overlay would otherwise keep
+ * silently blocking every click on the page underneath while invisible.
+ */
 export default function MobileMenu({ open, onClose }: MobileMenuProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const isClient = useIsClient();
 
   useEffect(() => {
     if (!open) return;
@@ -31,17 +59,20 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
     };
   }, [open, onClose]);
 
-  return (
+  if (!isClient) return null;
+
+  return createPortal(
     <AnimatePresence>
       {open ? (
         <motion.div
+          key="mobile-menu"
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
           className="fixed inset-0 z-50 flex flex-col bg-bg"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={{ opacity: 0, pointerEvents: "none" }}
+          animate={{ opacity: 1, pointerEvents: "auto" }}
+          exit={{ opacity: 0, pointerEvents: "none" }}
           transition={{ duration: 0.25 }}
         >
           <div className="flex items-center justify-end px-5 py-5 sm:px-8">
@@ -90,6 +121,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
           </nav>
         </motion.div>
       ) : null}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

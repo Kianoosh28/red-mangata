@@ -8,7 +8,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-border bg-bg">
-      <Container className="flex flex-col gap-12 py-16 md:flex-row md:items-start md:justify-between">
+      <Container className="flex flex-col gap-12 pt-12 pb-16 md:flex-row md:items-start md:justify-between md:pt-16">
         <div className="flex flex-col gap-5">
           <Logo variant="vertical" className="h-48 sm:h-56" />
           <p className="text-label text-text-muted">Game Art & Visual Development</p>
@@ -52,7 +52,7 @@ export default function Footer() {
                   {link.label}
                 </a>
               ) : (
-                <span key={link.label} className="text-body text-text-muted/50">
+                <span key={link.label} className="text-body text-text">
                   {link.label}
                 </span>
               )

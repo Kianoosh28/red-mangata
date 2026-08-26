@@ -27,7 +27,7 @@ export default function Header() {
           : "border-b border-transparent bg-transparent"
       )}
     >
-      <div className="mx-auto flex h-24 max-w-[1440px] items-center justify-between px-5 sm:px-8 sm:h-28 lg:px-12 xl:px-20">
+      <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-5 sm:h-28 sm:px-8 lg:px-12 xl:px-20">
         <Logo priority className="h-14 sm:h-16" />
 
         <nav className="hidden items-center gap-10 md:flex">

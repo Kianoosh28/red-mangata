@@ -16,7 +16,7 @@ export default async function AboutPreview() {
   return (
     <section className="border-t border-border py-20 sm:py-28">
       <Container>
-        <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-12 lg:gap-12">
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
           <div className="flex flex-col gap-8 lg:order-2 lg:col-span-6">
             <span className="text-label text-accent">About Red Mångata</span>
             <h2 className="text-section-title max-w-xl">
@@ -27,7 +27,7 @@ export default async function AboutPreview() {
               representation to help studios develop memorable characters, environments and
               visual worlds.
             </p>
-            <p className="text-body max-w-xl text-text-muted">
+            <p className="text-body-lg max-w-xl text-text-muted">
               Our senior concept artists bring more than 13 years of professional experience
               across character design, environment art, visual development, props and game
               production.

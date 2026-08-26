@@ -87,27 +87,29 @@ export default function ServicesShowcase({ services }: ServicesShowcaseProps) {
         </div>
       </div>
 
-      {/* Mobile: stacked, non-interactive — small thumbnail per service, no hover dependency. */}
+      {/* Mobile: stacked, non-interactive — thumbnail + number/title in one row, description spans the full width below so it isn't squeezed into a narrow column. */}
       <ul className="flex flex-col border-t border-border lg:hidden">
         {services.map((service) => (
-          <li key={service.slug} className="flex gap-5 border-b border-border py-6">
-            <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-none bg-surface">
-              {service.image ? (
-                <Image
-                  src={service.image.src}
-                  alt={service.image.alt}
-                  fill
-                  sizes="96px"
-                  className="object-cover"
-                  style={{ objectPosition: service.objectPosition ?? "center 20%" }}
-                />
-              ) : null}
+          <li key={service.slug} className="border-b border-border py-6">
+            <div className="flex items-center gap-5">
+              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-none bg-surface">
+                {service.image ? (
+                  <Image
+                    src={service.image.src}
+                    alt={service.image.alt}
+                    fill
+                    sizes="80px"
+                    className="object-cover"
+                    style={{ objectPosition: service.objectPosition ?? "center 20%" }}
+                  />
+                ) : null}
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="font-display text-lg text-accent">{service.number}</span>
+                <h3 className="text-project-title">{service.title}</h3>
+              </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <span className="font-display text-lg text-accent">{service.number}</span>
-              <h3 className="text-project-title">{service.title}</h3>
-              <p className="text-body text-text-muted">{service.shortDescription}</p>
-            </div>
+            <p className="text-body mt-4 text-text-muted">{service.shortDescription}</p>
           </li>
         ))}
       </ul>

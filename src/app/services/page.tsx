@@ -3,7 +3,7 @@ import PageHero from "@/components/ui/PageHero";
 import ServiceDetail from "@/components/services/ServiceDetail";
 import EngagementModels from "@/components/services/EngagementModels";
 import FinalCTA from "@/components/home/FinalCTA";
-import { services } from "@/content/services";
+import { getServicesWithArt } from "@/lib/servicePreview";
 
 export const metadata: Metadata = {
   title: "Game Art Services",
@@ -11,7 +11,9 @@ export const metadata: Metadata = {
     "From early visual exploration to production-ready concepts, Red Mångata supports game teams across character, environment and visual development.",
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const servicesWithArt = await getServicesWithArt();
+
   return (
     <>
       <PageHero
@@ -20,7 +22,7 @@ export default function ServicesPage() {
         description="From early visual exploration to production-ready concepts, Red Mångata supports game teams across character, environment and visual development."
       />
 
-      {services.map((service, index) => (
+      {servicesWithArt.map((service, index) => (
         <ServiceDetail key={service.slug} service={service} reversed={index % 2 === 1} />
       ))}
 

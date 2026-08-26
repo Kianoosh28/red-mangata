@@ -1,12 +1,13 @@
+import Image from "next/image";
 import Container from "@/components/ui/Container";
 import CTAButton from "@/components/ui/CTAButton";
 import ImageReveal from "@/components/ui/ImageReveal";
 import PlaceholderArt from "@/components/ui/PlaceholderArt";
-import type { Service } from "@/content/services";
+import type { ServiceWithArt } from "@/lib/servicePreview";
 import { cn } from "@/lib/utils";
 
 type ServiceDetailProps = {
-  service: Service;
+  service: ServiceWithArt;
   reversed?: boolean;
 };
 
@@ -51,8 +52,19 @@ export default function ServiceDetail({ service, reversed = false }: ServiceDeta
           <ImageReveal
             className={cn("lg:col-span-7", reversed ? "lg:order-1" : "lg:order-2")}
           >
-            <div className="relative aspect-[4/3]">
-              <PlaceholderArt label={service.title} className="h-full w-full" />
+            <div className="relative aspect-[4/3] overflow-hidden">
+              {service.image ? (
+                <Image
+                  src={service.image.src}
+                  alt={service.image.alt}
+                  fill
+                  sizes="(min-width: 1024px) 55vw, 100vw"
+                  className="object-cover"
+                  style={{ objectPosition: service.objectPosition ?? "center 20%" }}
+                />
+              ) : (
+                <PlaceholderArt label={service.title} className="h-full w-full" />
+              )}
             </div>
           </ImageReveal>
         </div>

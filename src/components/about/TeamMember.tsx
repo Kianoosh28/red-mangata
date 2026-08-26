@@ -6,47 +6,20 @@ type TeamMemberProps = {
 };
 
 export default function TeamMember({ member }: TeamMemberProps) {
+  const [firstName, ...rest] = member.name.split(" ");
+  const lastName = rest.join(" ");
+
   return (
     <div className="flex flex-col gap-6">
       <div className="relative aspect-[4/5]">
-        <PlaceholderArt
-          label={member.isPlaceholder ? "Portrait Pending" : member.role}
-          className="h-full w-full"
-        />
+        <PlaceholderArt label={member.name} className="h-full w-full" />
       </div>
 
-      <div className="flex flex-col gap-3">
-        <div>
-          <h3 className="text-project-title">{member.name}</h3>
-          <p className="text-label mt-1 text-accent">{member.role}</p>
-        </div>
-
-        {member.bio ? <p className="text-body text-text-muted">{member.bio}</p> : null}
-
-        {member.responsibilities && member.responsibilities.length > 0 ? (
-          <ul className="mt-1 flex flex-col gap-1.5">
-            {member.responsibilities.map((item) => (
-              <li key={item} className="text-body text-text-muted">
-                {item}
-              </li>
-            ))}
-          </ul>
-        ) : null}
-
-        {member.disciplines && member.disciplines.length > 0 ? (
-          <div className="flex flex-wrap gap-2">
-            {member.disciplines.map((discipline) => (
-              <span key={discipline} className="text-label border border-border px-3 py-1 text-text-muted">
-                {discipline}
-              </span>
-            ))}
-          </div>
-        ) : null}
-
-        {member.isPlaceholder ? (
-          <p className="text-body text-text-muted/60">Profile details to be added.</p>
-        ) : null}
-      </div>
+      {/* Two lines (first name / last name) on desktop, matching the copy the taller names already wrapped to; a single inline line on mobile. */}
+      <h3 className="text-project-title">
+        <span className="sm:block">{firstName}</span>{" "}
+        <span className="sm:block">{lastName}</span>
+      </h3>
     </div>
   );
 }

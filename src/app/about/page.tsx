@@ -25,7 +25,7 @@ export default function AboutPage() {
         <Container>
           <SectionHeading eyebrow="The Team" title="Red Mångata" />
 
-          <div className="mt-16 grid grid-cols-1 gap-14 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-16 grid grid-cols-1 gap-14 sm:grid-cols-2 lg:grid-cols-4">
             {team.map((member, index) => (
               <TeamMember key={index} member={member} />
             ))}
